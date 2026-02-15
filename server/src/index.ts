@@ -1,29 +1,34 @@
-import "dotenv/config";
-import cors from "cors";
-import express from "express";
-import notesRouter from "./routes/notes.routes";
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("Missing DATABASE_URL in environment.");
-}
-
-const port = Number(process.env.PORT ?? "4000");
-
-if (Number.isNaN(port)) {
-  throw new Error("PORT must be a valid number.");
-}
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/db';
+import notesRoutes from './routes/notes';
+import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
+// Connect to MongoDB
+connectDB();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "ok" });
+// Routes
+app.use('/api/notes', notesRoutes);
+
+// Health check
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
 });
 
-app.use("/api/notes", notesRouter);
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`SnapNote server running on port ${port}`);
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
