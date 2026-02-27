@@ -2,11 +2,26 @@
 
 body {
   font-family: "Inter", sans-serif;
-
 }
 
-.plaster-regular {
-  font-family: "Plaster", system-ui;
-  font-weight: 400;
-  font-style: normal;
+.ProseMirror {
+  outline: none;
+  min-height: 300px;
+  color: white;
+}
+
+.ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.ProseMirror p {
+  margin: 0.5rem 0;
 }
